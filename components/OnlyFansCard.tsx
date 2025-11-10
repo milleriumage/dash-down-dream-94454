@@ -117,17 +117,19 @@ const OnlyFansCard: React.FC<OnlyFansCardProps> = ({ item, onCardClick }) => {
 
       {!isUnlocked && (
         <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="mb-8">
+                <button 
+                    className="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-primary hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-light focus:ring-offset-neutral-800 transition-transform duration-200"
+                >
+                    <EyeIcon />
+                    {currentUser ? `Unlock for ${item.price} credits` : 'View Content'}
+                </button>
+            </div>
             <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-            <div className="flex items-center text-sm space-x-4 mb-4 text-neutral-300">
+            <div className="flex items-center text-sm space-x-4 text-neutral-300">
                 {item.mediaCount.images > 0 && <span className="flex items-center"><MediaIcon /> {item.mediaCount.images}</span>}
                 {item.mediaCount.videos > 0 && <span className="flex items-center"><VideoIcon /> {item.mediaCount.videos}</span>}
             </div>
-            <button 
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-primary hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-light focus:ring-offset-neutral-800 transition-transform duration-200"
-            >
-                <EyeIcon />
-                {currentUser ? `Unlock for ${item.price} credits` : 'View Content'}
-            </button>
         </div>
       )}
 
@@ -162,14 +164,14 @@ const OnlyFansCard: React.FC<OnlyFansCardProps> = ({ item, onCardClick }) => {
                   ))}
               </div>
             )}
-           <div className="mt-4 flex justify-between items-center">
+           <div className="mt-4 flex justify-between items-center gap-2">
               <ReactionBar itemId={item.id} userReactions={item.userReactions} />
-               <div className="flex space-x-2">
-                  <button onClick={handleLike} className="flex items-center bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 text-neutral-300 hover:text-white hover:bg-neutral-700 transition">
+               <div className="flex space-x-1.5 shrink-0">
+                  <button onClick={handleLike} className="flex items-center bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1 text-neutral-300 hover:text-white hover:bg-neutral-700 transition">
                       <HeartIcon isLiked={hasLiked} />
                       <span className="text-sm">{item.likedBy.length}</span>
                   </button>
-                  <button onClick={handleShare} className="flex items-center bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 text-neutral-300 hover:text-white hover:bg-neutral-700 transition">
+                  <button onClick={handleShare} className="flex items-center bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1 text-neutral-300 hover:text-white hover:bg-neutral-700 transition">
                       <ShareIcon />
                       <span className="text-sm">{item.sharedBy.length}</span>
                   </button>
