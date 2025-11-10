@@ -68,10 +68,10 @@ const SubscriptionPlanCard: React.FC<SubscriptionPlanCardProps> = ({ plan, isAdm
             )}
             <h3 className="text-2xl font-semibold text-white text-center">{plan.name}</h3>
             <div className="mt-4 text-center">
-                <span className="text-5xl font-bold tracking-tight text-white">${plan.price.toFixed(2)}</span>
+                <span className="text-5xl font-bold tracking-tight text-white">{plan.currency === 'USD' ? '$' : 'R$'}{plan.price.toFixed(2)}</span>
                 <span className="text-lg font-medium text-neutral-400">/{plan.currency === 'USD' ? 'mo' : 'mês'}</span>
             </div>
-             <p className="text-center text-brand-light mt-2 font-semibold">{plan.credits.toLocaleString('en-US')} credits/month</p>
+             <p className="text-center text-brand-light mt-2 font-semibold">{plan.credits.toLocaleString('en-US')} {plan.currency === 'USD' ? 'credits' : 'créditos'}/month</p>
             
             <ul className="my-8 space-y-3">
                 {plan.features.map((feature, index) => (

@@ -16,10 +16,19 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
     const [loadingPackage, setLoadingPackage] = useState<string | null>(null);
     const [notification, setNotification] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'credits' | 'plans'>('credits');
+    const [creditsCurrency, setCreditsCurrency] = useState<'USD' | 'BRL'>('USD');
+    const [plansCurrency, setPlansCurrency] = useState<'USD' | 'BRL'>('USD');
     const [editingPlan, setEditingPlan] = useState<SubscriptionPlan | null>(null);
     const [editingCreditPack, setEditingCreditPack] = useState<CreditPackage | null>(null);
 
     const isDeveloper = userRole === 'developer';
+
+    // Filter packages and plans by currency
+    const filteredCreditPackages = creditPackages.filter(pkg => pkg.currency === creditsCurrency);
+    const filteredPlans = subscriptionPlans.filter(plan => plan.currency === plansCurrency);
+
+    // Get currency symbol
+    const getCurrencySymbol = (currency: 'USD' | 'BRL') => currency === 'USD' ? '$' : 'R$';
 
     useEffect(() => {
         const handlePaymentCallback = async () => {
@@ -126,8 +135,23 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
       </div>
 
       {activeTab === 'credits' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {creditPackages.map(pkg => (
+        <>
+          <div className="flex justify-center gap-4 mb-8">
+            <button
+              onClick={() => setCreditsCurrency('USD')}
+              className={`px-6 py-2 rounded-lg font-semibold transition-colors ${creditsCurrency === 'USD' ? 'bg-brand-primary text-white' : 'bg-neutral-800 text-neutral-400 hover:text-white'}`}
+            >
+              USD ($)
+            </button>
+            <button
+              onClick={() => setCreditsCurrency('BRL')}
+              className={`px-6 py-2 rounded-lg font-semibold transition-colors ${creditsCurrency === 'BRL' ? 'bg-brand-primary text-white' : 'bg-neutral-800 text-neutral-400 hover:text-white'}`}
+            >
+              BRL (R$)
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {filteredCreditPackages.map(pkg => (
               <div key={pkg.id} className={`relative rounded-xl p-8 border ${pkg.bestValue ? 'border-brand-primary bg-neutral-800 shadow-lg shadow-brand-primary/20' : 'border-neutral-700 bg-neutral-800/50'}`}>
                 {isDeveloper && (
                     <button onClick={() => setEditingCreditPack(pkg)} className="absolute top-4 right-4 bg-neutral-700 hover:bg-neutral-600 p-2 rounded-full z-10">
@@ -142,7 +166,7 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
                 <div className="text-center">
                   <h3 className="text-2xl font-semibold text-white">{pkg.credits.toLocaleString('en-US')} Credits</h3>
                   {pkg.bonus > 0 && <p className="text-brand-light mt-1">+ {pkg.bonus.toLocaleString('en-US')} Bonus!</p>}
-                  <p className="mt-6 text-5xl font-bold tracking-tight text-white">${pkg.price.toFixed(2)}</p>
+                  <p className="mt-6 text-5xl font-bold tracking-tight text-white">{getCurrencySymbol(pkg.currency)}{pkg.price.toFixed(2)}</p>
                   
                   <button
                     onClick={() => handlePurchase(pkg)}
@@ -157,11 +181,27 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        </>
       )}
 
       {activeTab === 'plans' && (
-         <div>
+         <>
+          <div className="flex justify-center gap-4 mb-8">
+            <button
+              onClick={() => setPlansCurrency('USD')}
+              className={`px-6 py-2 rounded-lg font-semibold transition-colors ${plansCurrency === 'USD' ? 'bg-brand-primary text-white' : 'bg-neutral-800 text-neutral-400 hover:text-white'}`}
+            >
+              USD ($)
+            </button>
+            <button
+              onClick={() => setPlansCurrency('BRL')}
+              className={`px-6 py-2 rounded-lg font-semibold transition-colors ${plansCurrency === 'BRL' ? 'bg-brand-primary text-white' : 'bg-neutral-800 text-neutral-400 hover:text-white'}`}
+            >
+              BRL (R$)
+            </button>
+          </div>
+          <div>
             {userSubscription && (
                 <div className="bg-yellow-900/50 border border-yellow-700 text-yellow-300 px-4 py-3 rounded-lg mb-8 text-center">
                     <p>You are currently subscribed to the <span className="font-bold">{userSubscription.name}</span> plan. </p>
@@ -169,7 +209,7 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
                 </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {subscriptionPlans.map(plan => (
+                {filteredPlans.map(plan => (
                     <SubscriptionPlanCard 
                         key={plan.id}
                         plan={plan}
@@ -178,7 +218,8 @@ const Store: React.FC<{ navigate: (screen: Screen) => void; }> = ({ navigate }) 
                     />
                 ))}
             </div>
-         </div>
+          </div>
+         </>
       )}
 
       <div className="mt-12 text-center text-neutral-400">

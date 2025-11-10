@@ -186,7 +186,8 @@ export const CreditsProvider: React.FC<{ children: ReactNode }> = ({ children })
             price: parseFloat(pkg.price.toString()),
             bonus: pkg.bonus,
             bestValue: pkg.best_value,
-            stripeProductId: pkg.stripe_product_id
+            stripeProductId: pkg.stripe_product_id,
+            currency: (pkg.currency as 'USD' | 'BRL') || 'USD'
           }));
           setCreditPackages(mappedPackages);
         }

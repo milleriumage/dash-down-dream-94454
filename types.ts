@@ -54,6 +54,7 @@ export interface CreditPackage {
   bonus: number;
   bestValue: boolean;
   stripeProductId?: string;
+  currency: 'USD' | 'BRL';
 }
 
 export interface ContentItem {
