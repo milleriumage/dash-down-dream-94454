@@ -60,9 +60,9 @@ serve(async (req) => {
         line_items: [
           {
             price_data: {
-              currency: 'usd',
+              currency: pkg.currency.toLowerCase(),
               product_data: {
-                name: `${pkg.credits} Credits`,
+                name: `${pkg.credits} ${pkg.currency === 'BRL' ? 'Créditos' : 'Credits'}`,
                 description: pkg.bonus > 0 ? `Includes ${pkg.bonus} bonus credits!` : undefined,
               },
               unit_amount: Math.round(pkg.price * 100),
