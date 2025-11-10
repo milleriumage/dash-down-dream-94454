@@ -88,6 +88,7 @@ export type Database = {
           bonus: number
           created_at: string | null
           credits: number
+          currency: string
           id: string
           price: number
           stripe_product_id: string
@@ -97,6 +98,7 @@ export type Database = {
           bonus?: number
           created_at?: string | null
           credits: number
+          currency?: string
           id: string
           price: number
           stripe_product_id: string
@@ -106,6 +108,7 @@ export type Database = {
           bonus?: number
           created_at?: string | null
           credits?: number
+          currency?: string
           id?: string
           price?: number
           stripe_product_id?: string
