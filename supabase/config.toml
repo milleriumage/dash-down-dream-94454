@@ -1,1 +1,22 @@
 project_id = "cpggicxvmgyljvoxlpnu"
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.create-stripe-checkout]
+verify_jwt = true
+
+[functions.cancel-stripe-subscription]
+verify_jwt = true
+
+[functions.add-subscription-credits]
+verify_jwt = true
+
+[functions.create-pix-payment]
+verify_jwt = true
+
+[functions.check-pix-payment-status]
+verify_jwt = true
+
+[functions.mercadopago-webhook]
+verify_jwt = false
